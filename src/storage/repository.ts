@@ -23,8 +23,8 @@ export class SQLiteRepository implements IJobRepository {
     const database = this.db.getDatabase();
     
     const stmt = database.prepare(`
-      INSERT INTO jobs (id, title, company, location, description, url, apply_url, source, source_id, posted_date, keywords_matched)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO jobs (id, title, company, location, description, url, apply_url, source, source_id, posted_date, created_at, keywords_matched)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
@@ -38,6 +38,7 @@ export class SQLiteRepository implements IJobRepository {
       job.source,
       job.sourceId,
       job.postedDate.toISOString(),
+      job.createdAt.toISOString(),
       JSON.stringify(job.keywordsMatched)
     );
   }
@@ -60,7 +61,7 @@ export class SQLiteRepository implements IJobRepository {
   async markSeen(hash: string, jobId: string): Promise<void> {
     const database = this.db.getDatabase();
     
-    const stmt = database.prepare('INSERT INTO seen_jobs (hash, job_id) VALUES (?, ?)');
+    const stmt = database.prepare('INSERT OR IGNORE INTO seen_jobs (hash, job_id) VALUES (?, ?)');
     stmt.run(hash, jobId);
   }
 

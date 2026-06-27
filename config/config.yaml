@@ -1,8 +1,8 @@
 # Application configuration
 
 schedule:
-  ats: "0 */6 * * *"      # Every 6 hours
-  rss: "0 */6 * * *"      # Every 6 hours
+  ats: "0 */6 * * *"      # Companies from config/companies.yaml (Greenhouse, Lever, Ashby)
+  rss: "0 */6 * * *"      # General feed scrapers (RemoteOK, WWR, Jobicy, freehire.dev)
   cleanup: "0 0 * * 0"    # Weekly on Sunday
 
 notifications:

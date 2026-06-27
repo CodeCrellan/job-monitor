@@ -1,5 +1,12 @@
 # Companies configuration
-# List of companies to monitor by ATS type
+# ──────────────────────────────────────────────
+# Estas son fuentes ATS (Applicant Tracking System).
+# Solo scrapean las compañías listadas acá — si una empresa no está, no aparece.
+#
+# Las fuentes RSS/API (RemoteOK, WWR, Jobicy, freehire.dev) NO usan esta lista.
+# Esas traen cualquier empresa que matchee tus keywords (embedded, firmware, etc.)
+# sin importar si están listadas acá o no.
+# ──────────────────────────────────────────────
 
 greenhouse:
   - name: NXP Semiconductors

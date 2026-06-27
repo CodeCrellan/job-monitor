@@ -108,7 +108,8 @@ TELEGRAM_CHAT_ID=123456789
 
 ### `config/companies.yaml`
 
-Lista de compañías a monitorear, organizadas por tipo de ATS:
+Compañías monitoreadas por ATS (Greenhouse, Lever, Ashby).  
+**Solo aplica a fuentes ATS** — las fuentes RSS/API (RemoteOK, WWR, Jobicy, freehire.dev) traen resultados de **cualquier empresa** según las keywords, estén o no en esta lista.
 
 ```yaml
 greenhouse:
@@ -167,8 +168,8 @@ Configuración de scheduler, filtros y storage:
 
 ```yaml
 schedule:
-  ats: "0 */6 * * *"    # cada 6 horas
-  rss: "0 */6 * * *"    # cada 6 horas
+  ats: "0 */6 * * *"    # Empresas de config/companies.yaml (Greenhouse, Lever, Ashby)
+  rss: "0 */6 * * *"    # Fuentes generales (RemoteOK, WWR, Jobicy, freehire.dev)
   cleanup: "0 0 * * 0"  # domingo a medianoche
 
 notifications:

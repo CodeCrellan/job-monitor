@@ -69,6 +69,8 @@ export function loadConfig(configDir: string = './config'): AppConfig {
       },
     },
     storage: { ...DEFAULT_CONFIG.storage, ...fileConfig.storage },
+    experience: fileConfig.experience,
+    location: fileConfig.location,
   };
 
   // Override with environment variables

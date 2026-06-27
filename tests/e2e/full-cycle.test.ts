@@ -208,7 +208,7 @@ describe('Full E2E Cycle', () => {
     scrapers = createScrapers(companies);
 
     // 3. Pipeline
-    pipeline = new Pipeline(repository, keywords);
+    pipeline = new Pipeline(repository, { keywordConfig: keywords });
 
     // Verify scrapers are created
     expect(scrapers).toHaveLength(6);

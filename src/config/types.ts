@@ -12,6 +12,10 @@ export interface AppConfig {
   notifications: NotificationConfig;
   /** Storage configuration */
   storage: StorageConfig;
+  /** Experience filter configuration */
+  experience?: ExperienceConfig;
+  /** Location filter configuration */
+  location?: LocationConfig;
 }
 
 /**
@@ -82,12 +86,36 @@ export interface CompanyEntry {
  * Keyword filtering configuration
  */
 export interface KeywordConfig {
-  /** Required keywords (at least one must match) */
+  /** Required keywords (at least two must match) */
   required: string[];
   /** Bonus keywords (increase priority) */
   bonus: string[];
   /** Excluded keywords (must not match) */
   excluded: string[];
+}
+
+/**
+ * Experience filtering configuration
+ */
+export interface ExperienceConfig {
+  /** Whether experience filtering is enabled */
+  enabled: boolean;
+  /** Maximum years of experience (excludes jobs requiring more) */
+  maxYears: number;
+}
+
+/**
+ * Location filtering configuration
+ */
+export interface LocationConfig {
+  /** Whether location filtering is enabled */
+  enabled: boolean;
+  /** User's country code (ISO 3166-1 alpha-2, e.g. "MX") */
+  userCountry: string;
+  /** Whether to allow fully remote jobs */
+  allowRemote: boolean;
+  /** Whether to allow jobs offering visa sponsorship */
+  allowVisaSponsorship: boolean;
 }
 
 /**

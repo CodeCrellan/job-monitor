@@ -39,8 +39,20 @@ async function main(): Promise<void> {
 
     // 4. Create pipeline
     console.log('Creating pipeline...');
-    const pipeline = new Pipeline(repository, keywords);
+    const pipeline = new Pipeline(repository, {
+      keywordConfig: keywords,
+      experienceConfig: appConfig.experience,
+      locationConfig: appConfig.location,
+    });
     console.log('  Pipeline ready');
+
+    // Log filters status
+    if (appConfig.experience?.enabled) {
+      console.log(`  Experience filter: max ${appConfig.experience.maxYears} years`);
+    }
+    if (appConfig.location?.enabled) {
+      console.log(`  Location filter: ${appConfig.location.userCountry}, remote=${appConfig.location.allowRemote}, visa=${appConfig.location.allowVisaSponsorship}`);
+    }
 
     // 5. Create notification service
     console.log('Creating notification service...');

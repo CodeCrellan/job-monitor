@@ -10,7 +10,7 @@ Sin costo en fuentes de datos — solo APIs públicas y gratuitas.
 - **Filtro por keywords**: required (OR), matchAll (AND entre grupos, OR dentro de cada grupo), bonus, excluded — configurable vía YAML
 - **Filtro de ubicación**: jobs en tu país, remotos, o con visa sponsorship
 - **Filtro de experiencia**: excluye roles senior y posiciones que requieran más de N años
-- **Deduplicación**: SHA256 hash sobre título + compañía + URL
+- **Deduplicación**: SHA256 hash sobre título + compañía + URL. Cada trabajo se notifica UNA SOLA VEZ — si reaparece en ciclos posteriores, se detecta como visto y no se reenvía
 - **Notificaciones**: Telegram Bot API con mensajes de separación por batch
 - **SQLite**: cero config, file-based, con cleanup automático
 - **Scheduler**: cron configurable, ciclo inmediato al arrancar

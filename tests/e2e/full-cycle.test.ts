@@ -130,6 +130,60 @@ const jobicyResponse = {
   ],
 };
 
+const freeHireResponse = {
+  data: [
+    {
+      public_slug: 'firmware-engineer-test-freehire-001',
+      source: 'greenhouse',
+      external_id: 'test:001',
+      url: 'https://boards.greenhouse.io/test/jobs/001',
+      title: 'Firmware Engineer',
+      company: 'TestCorp',
+      company_slug: 'testcorp',
+      location: 'Remote',
+      description: 'RTOS firmware development for ARM Cortex-M microcontrollers.',
+      posted_at: '2026-06-27T10:00:00Z',
+      enrichment: {
+        salary_min: 90000,
+        salary_max: 120000,
+        salary_currency: 'USD',
+        experience_years_min: 2,
+      },
+    },
+    {
+      public_slug: 'embedded-linux-engineer-freehire-002',
+      source: 'lever',
+      external_id: 'test:002',
+      url: 'https://careers.lever.co/test/jobs/002',
+      title: 'Embedded Linux Engineer',
+      company: 'TestCorp',
+      company_slug: 'testcorp',
+      location: 'San Jose, CA',
+      description: 'Yocto BSP and device driver development for i.MX SoC.',
+      posted_at: '2026-06-26T08:00:00Z',
+      enrichment: {
+        salary_min: 110000,
+        salary_max: 140000,
+        salary_currency: 'USD',
+        experience_years_min: 3,
+      },
+    },
+    {
+      public_slug: 'sales-manager-freehire-003',
+      source: 'greenhouse',
+      external_id: 'test:003',
+      url: 'https://boards.greenhouse.io/test/jobs/003',
+      title: 'Sales Manager - Embedded Division',
+      company: 'TestCorp',
+      company_slug: 'testcorp',
+      location: 'Austin, TX',
+      description: 'Manage sales team for embedded solutions.',
+      posted_at: '2026-06-25T12:00:00Z',
+    },
+  ],
+  meta: { limit: 100, offset: 0, total: 3 },
+};
+
 // ── Mock fetch helper ────────────────────────────────────────
 
 function mockGlobalFetch(): void {
@@ -140,6 +194,7 @@ function mockGlobalFetch(): void {
     'remoteok.com': remoteOkResponse,
     'weworkremotely.com': rssXml,
     'jobicy.com': jobicyResponse,
+    'freehire.dev': freeHireResponse,
   };
 
   vi.spyOn(globalThis, 'fetch').mockImplementation(async (url: RequestInfo | URL) => {
@@ -211,7 +266,7 @@ describe('Full E2E Cycle', () => {
     pipeline = new Pipeline(repository, { keywordConfig: keywords });
 
     // Verify scrapers are created
-    expect(scrapers).toHaveLength(6);
+    expect(scrapers).toHaveLength(7);
   });
 
   afterAll(() => {
@@ -238,9 +293,10 @@ describe('Full E2E Cycle', () => {
     // RemoteOK: 1 matching (RTOS Developer)
     // WWR: 1 matching (Embedded Engineer) out of 2 (Marketing Coordinator excluded)
     // Jobicy: 1 matching (MCU Software Engineer)
+    // FreeHire: 2 matching (Firmware Engineer, Embedded Linux Engineer) out of 3 (Sales Manager excluded)
 
-    expect(storedJobs.length).toBeGreaterThanOrEqual(6);
-    expect(storedJobs.length).toBeLessThanOrEqual(8);
+    expect(storedJobs.length).toBeGreaterThanOrEqual(8);
+    expect(storedJobs.length).toBeLessThanOrEqual(11);
 
     // Verify specific jobs made it through
     const titles = storedJobs.map((j) => j.title);
@@ -250,11 +306,17 @@ describe('Full E2E Cycle', () => {
     expect(titles).toContain('Bare Metal Engineer');
     expect(titles).toContain('RTOS Developer');
     expect(titles).toContain('MCU Software Engineer');
+    expect(titles).toContain('Firmware Engineer'); // FreeHire
+    expect(titles).toContain('Embedded Linux Engineer'); // FreeHire (there are two with same title)
 
     // Verify excluded/filtered jobs are NOT stored
     expect(titles).not.toContain('Sales Manager - Embedded Division');
     expect(titles).not.toContain('Junior Marketing Coordinator');
     expect(titles).not.toContain('Internal Tools Developer');
+
+    // Count unique Embedded Linux Engineer entries (Greenhouse + FreeHire)
+    const embeddedLinuxEngineers = storedJobs.filter((j) => j.title === 'Embedded Linux Engineer');
+    expect(embeddedLinuxEngineers).toHaveLength(2);
 
     // Verify notification results match stored jobs
     expect(notificationResults).toHaveLength(storedJobs.length);

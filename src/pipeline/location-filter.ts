@@ -18,7 +18,6 @@ const REMOTE_PATTERNS = [
   /\bonline\b/i,
   /\b100%\s*remote\b/i,
   /\bfully\s*remote\b/i,
-  /\bglobal\b/i,
   /\bworld.?wide\b/i,
 ];
 

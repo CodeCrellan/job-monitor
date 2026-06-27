@@ -16,16 +16,35 @@ function textMatchesKeyword(text: string, keyword: string): boolean {
 }
 
 /**
+ * Check that ALL match-all groups match (AND between groups, OR within each group)
+ * Returns true if no matchAll groups are configured
+ */
+function matchesMatchAll(text: string, groups: string[][]): boolean {
+  if (!groups || groups.length === 0) {
+    return true; // No constraint
+  }
+
+  return groups.every((group) =>
+    group.some((kw) => textMatchesKeyword(text, kw))
+  );
+}
+
+/**
  * Check if a job matches the keyword criteria
  */
 export function matchesKeywords(job: Job, config: KeywordFilter): boolean {
   const text = `${job.title} ${job.description}`;
 
-  // Must match at least two different required keywords to reduce false positives
-  const matchedRequired = config.required.filter((kw) =>
+  // Must match at least one required keyword (whole word match)
+  const hasRequired = config.required.some((kw) =>
     textMatchesKeyword(text, kw)
   );
-  if (matchedRequired.length < 2) {
+  if (!hasRequired) {
+    return false;
+  }
+
+  // Must pass all match-all groups (AND between groups, OR within each)
+  if (config.matchAll && !matchesMatchAll(text, config.matchAll)) {
     return false;
   }
 
@@ -51,6 +70,17 @@ export function findMatchedKeywords(job: Job, config: KeywordFilter): string[] {
   for (const kw of config.required) {
     if (textMatchesKeyword(text, kw)) {
       matched.push(kw);
+    }
+  }
+
+  // Check match-all group keywords
+  if (config.matchAll) {
+    for (const group of config.matchAll) {
+      for (const kw of group) {
+        if (textMatchesKeyword(text, kw)) {
+          matched.push(kw);
+        }
+      }
     }
   }
 

@@ -37,6 +37,61 @@ describe('matchesKeywords', () => {
     expect(matchesKeywords(makeJob(), defaultConfig)).toBe(true);
   });
 
+  it('should pass when matchAll is not configured', () => {
+    const job = makeJob({ title: 'Firmware Engineer' });
+    expect(matchesKeywords(job, defaultConfig)).toBe(true);
+  });
+
+  it('should require all matchAll groups to match (AND between groups)', () => {
+    const job = makeJob({
+      title: 'Firmware Engineer',
+      description: 'CAN bus development for automotive. Uses embedded C.',
+    });
+    const config: KeywordFilter = {
+      ...defaultConfig,
+      matchAll: [['CAN', 'CAN bus', 'CAN FD'], ['automotive']],
+    };
+    expect(matchesKeywords(job, config)).toBe(true);
+  });
+
+  it('should fail when only one matchAll group matches', () => {
+    const job = makeJob({
+      title: 'Firmware Engineer',
+      description: 'CAN bus development for embedded systems.',
+    });
+    const config: KeywordFilter = {
+      ...defaultConfig,
+      matchAll: [['CAN', 'CAN bus'], ['UDS'], ['automotive']],
+    };
+    expect(matchesKeywords(job, config)).toBe(false);
+  });
+
+  it('should match with OR within a matchAll group', () => {
+    const job = makeJob({
+      title: 'Firmware Engineer',
+      description: 'UDS diagnostic stack for embedded ECUs.',
+    });
+    const config: KeywordFilter = {
+      ...defaultConfig,
+      matchAll: [['CAN', 'UDS', 'CAN FD']],
+    };
+    expect(matchesKeywords(job, config)).toBe(true);
+  });
+
+  it('should work with required + matchAll combined', () => {
+    const job = makeJob({
+      title: 'Firmware Engineer',
+      description: 'CAN bus firmware on RTOS for automotive ECUs.',
+    });
+    const config: KeywordFilter = {
+      required: ['firmware', 'rtos'],
+      matchAll: [['CAN', 'CAN FD'], ['automotive']],
+      bonus: [],
+      excluded: [],
+    };
+    expect(matchesKeywords(job, config)).toBe(true);
+  });
+
   it('should return false when no required keyword matches', () => {
     const job = makeJob({
       title: 'Frontend Developer',
@@ -120,6 +175,20 @@ describe('findMatchedKeywords', () => {
     const matched = findMatchedKeywords(job, defaultConfig);
     const firmwareCount = matched.filter((k) => k === 'firmware').length;
     expect(firmwareCount).toBe(1);
+  });
+
+  it('should include matchAll group keywords', () => {
+    const job = makeJob({
+      title: 'Firmware Engineer',
+      description: 'CAN bus and UDS diagnostics for automotive ECUs.',
+    });
+    const config: KeywordFilter = {
+      ...defaultConfig,
+      matchAll: [['CAN', 'CAN FD'], ['UDS', 'ISO 14229']],
+    };
+    const matched = findMatchedKeywords(job, config);
+    expect(matched).toContain('CAN');
+    expect(matched).toContain('UDS');
   });
 });
 

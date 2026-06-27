@@ -1,5 +1,7 @@
 # Keywords configuration
-# Required: at least one must match
+# Required: at least one must match (OR between keywords)
+# Match All: ALL groups must match (AND between groups, OR within each group)
+#   example: [[CAN, UDS], [diagnostic]] → (CAN OR UDS) AND (diagnostic)
 # Bonus: informational, increases priority
 # Excluded: must not match
 
@@ -14,6 +16,10 @@ required:
   - device driver
   - bsp
   - hardware abstraction
+
+match_all:
+  - [CAN, UDS, CAN bus, CAN FD]
+#   - [diagnostic, ISO 14229]
 
 bonus:
   - arm
@@ -35,3 +41,5 @@ excluded:
   - intern
   - co-op
   - fresh graduate
+  - devops
+  - react

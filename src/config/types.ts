@@ -86,8 +86,10 @@ export interface CompanyEntry {
  * Keyword filtering configuration
  */
 export interface KeywordConfig {
-  /** Required keywords (at least two must match) */
+  /** Required keywords (at least one must match) */
   required: string[];
+  /** Match-all groups: ALL groups must match, at least one keyword per group (AND between groups, OR within) */
+  matchAll?: string[][];
   /** Bonus keywords (increase priority) */
   bonus: string[];
   /** Excluded keywords (must not match) */

@@ -406,7 +406,7 @@ describe('createScrapers', () => {
 
   it('should create scrapers from company config', () => {
     const scrapers = createScrapers(companies);
-    expect(scrapers).toHaveLength(6); // 3 ATS + 3 RSS
+    expect(scrapers).toHaveLength(7); // 3 ATS + 4 RSS
     expect(scrapers.map((s) => s.name)).toEqual([
       'greenhouse',
       'lever',
@@ -414,6 +414,7 @@ describe('createScrapers', () => {
       'remoteok',
       'wwr',
       'jobicy',
+      'freehire',
     ]);
   });
 });

@@ -11,6 +11,7 @@ import { AshbyFetcher } from './ashby';
 import { RemoteOKFetcher } from './remoteok';
 import { WWRFetcher } from './wwr';
 import { JobicyFetcher } from './jobicy';
+import { FreeHireFetcher } from './freehire';
 
 /**
  * Create all scrapers from company configuration
@@ -37,6 +38,7 @@ export function createScrapers(companies: CompanyConfig): ISourceFetcher[] {
   scrapers.push(new RemoteOKFetcher());
   scrapers.push(new WWRFetcher());
   scrapers.push(new JobicyFetcher());
+  scrapers.push(new FreeHireFetcher());
 
   return scrapers;
 }
@@ -49,7 +51,7 @@ export function getScrapersByType(
   type: 'ats' | 'rss'
 ): ISourceFetcher[] {
   const atsSources = ['greenhouse', 'lever', 'ashby'];
-  const rssSources = ['remoteok', 'wwr', 'jobicy'];
+  const rssSources = ['remoteok', 'wwr', 'jobicy', 'freehire'];
 
   const sources = type === 'ats' ? atsSources : rssSources;
   return scrapers.filter((s) => sources.includes(s.name));
@@ -62,4 +64,5 @@ export { AshbyFetcher } from './ashby';
 export { RemoteOKFetcher } from './remoteok';
 export { WWRFetcher } from './wwr';
 export { JobicyFetcher } from './jobicy';
+export { FreeHireFetcher } from './freehire';
 export type { ISourceFetcher, RawJob } from './types';

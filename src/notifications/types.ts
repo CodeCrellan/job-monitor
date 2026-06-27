@@ -10,6 +10,8 @@ import type { Job } from '../storage/types';
 export interface INotificationService {
   /** Send job notification */
   send(job: Job): Promise<boolean>;
+  /** Send a raw text message (e.g., batch separator) */
+  sendRaw(message: string): Promise<boolean>;
 }
 
 /**

@@ -31,6 +31,16 @@ export class TelegramNotifier implements INotificationService {
   }
 
   /**
+   * Send a raw text message (e.g., batch separator header)
+   */
+  async sendRaw(message: string): Promise<boolean> {
+    if (!this.config.enabled) {
+      return false;
+    }
+    return this.sendMessage(message);
+  }
+
+  /**
    * Send a message to Telegram
    */
   private async sendMessage(text: string): Promise<boolean> {

@@ -1,17 +1,19 @@
 # Job Monitor
 
-Monitor de búsquedas laborales para posiciones de **embedded software / firmware**. Scrapea ATS (Greenhouse, Lever, Ashby) y RSS (RemoteOK, WeWorkRemotely, Jobicy), filtra por keywords, guarda en SQLite y envía notificaciones por Telegram.
+Monitor de búsquedas laborales para posiciones de **embedded software / firmware**. Scrapea ATS (Greenhouse, Lever, Ashby), RSS (RemoteOK, WeWorkRemotely, Jobicy) y APIs agregadoras (freehire.dev), filtra por keywords, ubicación y experiencia, guarda en SQLite y envía notificaciones por Telegram.
 
 Sin costo en fuentes de datos — solo APIs públicas y gratuitas.
 
 ## Features
 
-- **6 fuentes de datos**: Greenhouse, Lever, Ashby, RemoteOK, WeWorkRemotely, Jobicy
-- **Filtro por keywords**: required / bonus / excluded, configurable vía YAML
+- **7 fuentes de datos**: Greenhouse, Lever, Ashby, RemoteOK, WeWorkRemotely, Jobicy, freehire.dev
+- **Filtro por keywords**: required (OR), matchAll (AND entre grupos, OR dentro de cada grupo), bonus, excluded — configurable vía YAML
+- **Filtro de ubicación**: jobs en tu país, remotos, o con visa sponsorship
+- **Filtro de experiencia**: excluye roles senior y posiciones que requieran más de N años
 - **Deduplicación**: SHA256 hash sobre título + compañía + URL
-- **Notificaciones**: Telegram Bot API
+- **Notificaciones**: Telegram Bot API con mensajes de separación por batch
 - **SQLite**: cero config, file-based, con cleanup automático
-- **Scheduler**: cron configurable (ATS cada 6h, RSS diario, cleanup semanal)
+- **Scheduler**: cron configurable, ciclo inmediato al arrancar
 - **Graceful shutdown**: maneja SIGINT/SIGTERM
 
 ## Stack
@@ -66,6 +68,8 @@ greenhouse:
     token: stmicroelectronics
 
 lever:
+  - name: Nordic Semiconductor
+    token: nordic
   - name: Espressif Systems
     token: espressif
 
@@ -79,17 +83,28 @@ ashby:
 Palabras clave para filtrar resultados:
 
 ```yaml
+# Al menos una de estas debe matchear (OR)
 required:
   - embedded
   - firmware
   - rtos
   - microcontroller
 
+# TODOS los grupos deben matchear (AND entre grupos, OR dentro de cada grupo)
+# Ejemplo: [[CAN, UDS], [diagnostic]] → (CAN OR UDS) AND (diagnostic)
+match_all:
+  - [CAN, UDS, CAN bus, CAN FD]
+
+# Informacional — aumentan prioridad
 bonus:
   - arm
+  - cortex-m
   - stm32
   - esp32
+  - zephyr
+  - freertos
 
+# Excluir si alguna matchea
 excluded:
   - sales
   - manager
@@ -98,12 +113,12 @@ excluded:
 
 ### `config/config.yaml`
 
-Configuración de scheduler y storage:
+Configuración de scheduler, filtros y storage:
 
 ```yaml
 schedule:
   ats: "0 */6 * * *"    # cada 6 horas
-  rss: "0 0 * * *"      # diario a medianoche
+  rss: "0 */6 * * *"    # cada 6 horas
   cleanup: "0 0 * * 0"  # domingo a medianoche
 
 notifications:
@@ -112,6 +127,18 @@ notifications:
 
 storage:
   retention_days: 90
+
+# Filtro de experiencia: excluye senior roles y posiciones con muchos años
+experience:
+  enabled: true
+  maxYears: 3
+
+# Filtro de ubicación: solo jobs en tu país, remotos, o con visa
+location:
+  enabled: true
+  userCountry: "MX"
+  allowRemote: true
+  allowVisaSponsorship: true
 ```
 
 ## Scripts
@@ -128,30 +155,39 @@ storage:
 
 ## Tests
 
-```
+```bash
 npm run test:run
 ```
 
 ```
-✓ tests/unit/normalizer.test.ts           (9 tests)
-✓ tests/unit/dedupe.test.ts               (11 tests)
-✓ tests/unit/filter.test.ts               (14 tests)
-✓ tests/unit/message-formatter.test.ts    (12 tests)
-✓ tests/integration/scrapers.test.ts      (20 tests)
-✓ tests/integration/storage.test.ts       (9 tests)
-✓ tests/e2e/full-cycle.test.ts            (3 tests)
+✓ tests/unit/normalizer.test.ts               (9 tests)
+✓ tests/unit/dedupe.test.ts                   (11 tests)
+✓ tests/unit/filter.test.ts                   (21 tests)
+✓ tests/unit/message-formatter.test.ts        (12 tests)
+✓ tests/unit/experience-filter.test.ts        (12 tests)
+✓ tests/unit/location-filter.test.ts          (18 tests)
+✓ tests/integration/scrapers.test.ts          (20 tests)
+✓ tests/integration/storage.test.ts           (9 tests)
+✓ tests/e2e/full-cycle.test.ts                (3 tests)
 ──────────────────────────────────────────────
-  7 test files  |  78 tests  |  all passing
+  9 test files  |  115 tests  |  all passing
 ```
 
 ## Arquitectura
 
 ```
 src/
-├── index.ts                  # Entry point
+├── index.ts                  # Entry point (startup cycle incluido)
 ├── config/                   # Carga de config (YAML + .env)
-├── scrapers/                 # 6 source fetchers (ATS + RSS)
-├── pipeline/                 # Normalizer → Dedup → Filter
+├── scrapers/                 # 7 source fetchers (ATS + RSS + API)
+│   ├── greenhouse.ts         # Greenhouse ATS
+│   ├── lever.ts              # Lever ATS
+│   ├── ashby.ts              # Ashby ATS
+│   ├── remoteok.ts           # RemoteOK RSS
+│   ├── wwr.ts                # WeWorkRemotely RSS
+│   ├── jobicy.ts             # Jobicy RSS
+│   └── freehire.ts           # freehire.dev API (70+ fuentes agregadas)
+├── pipeline/                 # Normalizer → Dedup → KeywordFilter → ExperienceFilter → LocationFilter
 ├── storage/                  # SQLite repository
 ├── notifications/            # Telegram Bot + formatter
 └── scheduler/                # Cron orchestration

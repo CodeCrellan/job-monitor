@@ -71,6 +71,10 @@ async function main(): Promise<void> {
     );
     scheduler.start();
 
+    // 7. Run an initial RSS cycle immediately on startup
+    console.log('Running initial cycle...');
+    await scheduler.runNow('rss');
+
     console.log('');
     console.log('Job Monitor is running!');
     console.log('Press Ctrl+C to stop');

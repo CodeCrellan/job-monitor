@@ -88,6 +88,11 @@ export class Scheduler {
       const subset = getScrapersByType(this.scrapers, type);
       let totalNew = 0;
 
+      // Send batch separator header
+      const now = new Date();
+      const header = `━━━ 🔍 Job Monitor · ${type.toUpperCase()} · ${now.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })} ━━━`;
+      await this.notifier.sendRaw(header);
+
       for (const scraper of subset) {
         try {
           console.log(`[${type}] Fetching from ${scraper.name}...`);

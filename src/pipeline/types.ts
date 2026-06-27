@@ -28,6 +28,8 @@ export type KeywordMatcher = (job: Job, keywords: KeywordFilter) => boolean;
 export interface KeywordFilter {
   /** Required keywords (at least one must match) */
   required: string[];
+  /** Match-all groups: ALL groups must match, at least one keyword per group (AND between groups, OR within) */
+  matchAll?: string[][];
   /** Bonus keywords (informational only) */
   bonus: string[];
   /** Excluded keywords (must not match) */

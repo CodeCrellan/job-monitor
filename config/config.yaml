@@ -2,7 +2,7 @@
 
 schedule:
   ats: "0 */6 * * *"      # Every 6 hours
-  rss: "0 0 * * *"        # Daily at midnight
+  rss: "0 */6 * * *"      # Every 6 hours
   cleanup: "0 0 * * 0"    # Weekly on Sunday
 
 notifications:

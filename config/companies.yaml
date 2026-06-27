@@ -1,0 +1,34 @@
+# Companies configuration
+# List of companies to monitor by ATS type
+
+greenhouse:
+  - name: NXP Semiconductors
+    token: nxp
+  - name: STMicroelectronics
+    token: stmicroelectronics
+  - name: Microchip Technology
+    token: microchip
+  - name: Renesas Electronics
+    token: renesas
+  - name: Infineon Technologies
+    token: infineon
+  - name: Analog Devices
+    token: analogdevices
+
+lever:
+  - name: Nordic Semiconductor
+    token: nordic
+  - name: Particle.io
+    token: particle
+  - name: Blues Wireless
+    token: blues
+  - name: Soracom
+    token: soracom
+
+ashby:
+  - name: Anthropic
+    token: anthropic
+  - name: CoreWeave
+    token: coreweave
+  - name: Espressif Systems
+    token: espressif

@@ -1,0 +1,41 @@
+{
+  "name": "job-monitor",
+  "version": "1.0.0",
+  "description": "Job monitoring app for embedded software positions",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist/",
+    "setup": "npm install && npm run build"
+  },
+  "keywords": [
+    "embedded",
+    "firmware",
+    "jobs",
+    "monitor"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "fast-xml-parser": "^5.9.3",
+    "node-cron": "^3.0.3",
+    "uuid": "^9.0.0",
+    "yaml": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^20.11.0",
+    "@types/node-cron": "^3.0.11",
+    "@types/uuid": "^9.0.7",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

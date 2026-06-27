@@ -1,0 +1,37 @@
+# Keywords configuration
+# Required: at least one must match
+# Bonus: informational, increases priority
+# Excluded: must not match
+
+required:
+  - embedded
+  - firmware
+  - rtos
+  - bare metal
+  - microcontroller
+  - mcu
+  - soc
+  - device driver
+  - bsp
+  - hardware abstraction
+
+bonus:
+  - arm
+  - cortex-m
+  - stm32
+  - esp32
+  - zephyr
+  - freertos
+  - linux kernel
+  - yocto
+  - buildroot
+
+excluded:
+  - sales
+  - marketing
+  - manager
+  - director
+  - vp
+  - intern
+  - co-op
+  - fresh graduate

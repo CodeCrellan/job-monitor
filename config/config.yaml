@@ -16,4 +16,4 @@ storage:
   dbPath: "./data/jobs.db"
   retentionDays: 90
 
-# Filters de búsqueda (keywords, experiencia, ubicación) en config/keywords.yaml
+# Filters de búsqueda (keywords, experiencia, ubicación) en config/filters.yaml

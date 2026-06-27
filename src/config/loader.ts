@@ -95,10 +95,10 @@ export function loadCompanies(configDir: string = './config'): CompanyConfig {
 }
 
 /**
- * Load keyword configuration
+ * Load filter configuration (keywords, experience, location)
  */
-export function loadKeywords(configDir: string = './config'): KeywordConfig {
-  return loadYamlFile<KeywordConfig>(join(configDir, 'keywords.yaml'));
+export function loadFilters(configDir: string = './config'): KeywordConfig {
+  return loadYamlFile<KeywordConfig>(join(configDir, 'filters.yaml'));
 }
 
 /**

@@ -4,7 +4,7 @@
  */
 
 import 'dotenv/config';
-import { loadConfig, loadCompanies, loadKeywords, validateConfig } from './config';
+import { loadConfig, loadCompanies, loadFilters, validateConfig } from './config';
 import { createDatabase } from './storage/database';
 import { createRepository } from './storage/repository';
 import { createScrapers } from './scrapers';
@@ -21,7 +21,7 @@ async function main(): Promise<void> {
     console.log('Loading configuration...');
     const appConfig = loadConfig();
     const companies = loadCompanies();
-    const keywords = loadKeywords();
+    const filters = loadFilters();
     
     validateConfig(appConfig);
     console.log('  Config loaded');
@@ -40,18 +40,18 @@ async function main(): Promise<void> {
     // 4. Create pipeline
     console.log('Creating pipeline...');
     const pipeline = new Pipeline(repository, {
-      keywordConfig: keywords,
-      experienceConfig: keywords.experience,
-      locationConfig: keywords.location,
+      keywordConfig: filters,
+      experienceConfig: filters.experience,
+      locationConfig: filters.location,
     });
     console.log('  Pipeline ready');
 
     // Log filters status
-    if (keywords.experience?.enabled) {
-      console.log(`  Experience filter: max ${keywords.experience.maxYears} years`);
+    if (filters.experience?.enabled) {
+      console.log(`  Experience filter: max ${filters.experience.maxYears} years`);
     }
-    if (keywords.location?.enabled) {
-      console.log(`  Location filter: ${keywords.location.userCountry}, remote=${keywords.location.allowRemote}, visa=${keywords.location.allowVisaSponsorship}`);
+    if (filters.location?.enabled) {
+      console.log(`  Location filter: ${filters.location.userCountry}, remote=${filters.location.allowRemote}, visa=${filters.location.allowVisaSponsorship}`);
     }
 
     // 5. Create notification service

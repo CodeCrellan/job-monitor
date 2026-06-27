@@ -4,4 +4,4 @@
  */
 
 export * from './types';
-export { loadConfig, loadCompanies, loadKeywords, validateConfig } from './loader';
+export { loadConfig, loadCompanies, loadFilters, validateConfig } from './loader';

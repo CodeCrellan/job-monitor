@@ -129,7 +129,7 @@ ashby:
     token: anthropic
 ```
 
-### `config/keywords.yaml`
+### `config/filters.yaml`
 
 Palabras clave + filtros de experiencia y ubicación — todo en un solo archivo:
 

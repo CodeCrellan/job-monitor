@@ -35,14 +35,56 @@ git clone https://github.com/CodeCrellan/job-monitor.git
 cd job-monitor
 npm install
 
-# 2. Configurar Telegram
+# 2. Configurar Telegram (ver sección "Configurar Telegram" abajo)
 cp .env.example .env
-# Editar .env con TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID
-# (conseguí el token en https://t.me/botfather)
 
 # 3. Ejecutar
 npm run dev          # desarrollo (hot-reload)
 npm start            # producción
+```
+
+### Configurar Telegram
+
+#### 1. Crear un bot y obtener el token
+
+1. Abrí Telegram y buscá **BotFather** (el usuario oficial: `@BotFather`)
+2. Iniciá un chat y enviale `/newbot`
+3. Te va a pedir un nombre — ponele el que quieras, ej: `Mi Job Monitor`
+4. Después te pide un username **terminado en `bot`** — ej: `mi_job_monitor_bot`
+5. BotFather te responde con algo como:
+
+```
+Done! Congratulations on your new bot.
+Use this token to access the HTTP API:
+1234567890:ABCdefGHIjklmNOPqrSTUvWXyz-ABCDEFghij
+```
+
+Ese string largo es tu `TELEGRAM_BOT_TOKEN`. Copialo.
+
+#### 2. Obtener el Chat ID
+
+1. Buscá tu bot nuevo en Telegram (por el username que le pusiste) y **iniciá un chat** con él
+2. Enviale cualquier mensaje (ej: `/start`)
+3. Abrí en tu navegador esta URL (reemplazando `TOKEN` por el tuyo):
+
+```
+https://api.telegram.org/botTOKEN/getUpdates
+```
+
+4. Buscá en la respuesta JSON un campo `"chat":{"id":123456789,...}` — ese número es tu `TELEGRAM_CHAT_ID`
+
+> 📌 **Alternativa rápida**: si tenés `curl` instalado, corre esto después de mandarle el mensaje al bot:
+> ```bash
+> curl -s "https://api.telegram.org/botTU_TOKEN/getUpdates" | grep -o '"chat":{"id":[0-9-]*'
+> ```
+
+#### 3. Completar `.env`
+
+Abrí `.env` y pegalos:
+
+```
+TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklmNOPqrSTUvWXyz-ABCDEFghij
+TELEGRAM_CHAT_ID=123456789
 ```
 
 ## Configuración

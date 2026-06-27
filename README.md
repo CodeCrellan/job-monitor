@@ -63,17 +63,25 @@ Ese string largo es tu `TELEGRAM_BOT_TOKEN`. Copialo.
 
 #### 2. Obtener el Chat ID
 
-1. Buscá tu bot nuevo en Telegram (por el username que le pusiste) y **iniciá un chat** con él
+**Opción fácil (recomendada)** — con `@userinfobot`:
+
+1. En Telegram, buscá **@userinfobot** e iniciá un chat
 2. Enviale cualquier mensaje (ej: `/start`)
-3. Abrí en tu navegador esta URL (reemplazando `TOKEN` por el tuyo):
+3. Te va a responder un número: `Id: 123456789` — ese número es tu `TELEGRAM_CHAT_ID`
+
+**Opción manual** — con `getUpdates`:
+
+1. Buscá tu bot nuevo (por el username que le pusiste) e **iniciá un chat** con él
+2. Enviale cualquier mensaje, ej: `/start`
+3. Abrí en tu navegador esta URL (reemplazando `TOKEN` por el de tu bot):
 
 ```
 https://api.telegram.org/botTOKEN/getUpdates
 ```
 
-4. Buscá en la respuesta JSON un campo `"chat":{"id":123456789,...}` — ese número es tu `TELEGRAM_CHAT_ID`
+4. Buscá en la respuesta JSON un campo `"chat":{"id":123456789,...}` — ese número es el `TELEGRAM_CHAT_ID`
 
-> 📌 **Alternativa rápida**: si tenés `curl` instalado, corre esto después de mandarle el mensaje al bot:
+> 💡 **Tip con `curl`**: si tenés curl, después de mandarle el mensaje al bot:
 > ```bash
 > curl -s "https://api.telegram.org/botTU_TOKEN/getUpdates" | grep -o '"chat":{"id":[0-9-]*'
 > ```

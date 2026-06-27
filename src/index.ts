@@ -3,6 +3,7 @@
  * Main application that wires everything together
  */
 
+import 'dotenv/config';
 import { loadConfig, loadCompanies, loadKeywords, validateConfig } from './config';
 import { createDatabase } from './storage/database';
 import { createRepository } from './storage/repository';

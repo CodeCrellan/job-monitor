@@ -24,6 +24,7 @@
   "type": "commonjs",
   "dependencies": {
     "better-sqlite3": "^11.0.0",
+    "dotenv": "^17.4.2",
     "fast-xml-parser": "^5.9.3",
     "node-cron": "^3.0.3",
     "uuid": "^9.0.0",

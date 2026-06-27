@@ -131,7 +131,7 @@ ashby:
 
 ### `config/keywords.yaml`
 
-Palabras clave para filtrar resultados:
+Palabras clave + filtro de ubicación — todo en un solo archivo:
 
 ```yaml
 # Al menos una de estas debe matchear (OR)
@@ -160,11 +160,18 @@ excluded:
   - sales
   - manager
   - intern
+
+# Filtro de ubicación: solo jobs en tu país, remotos, o con visa sponsorship
+location:
+  enabled: true
+  userCountry: "MX"
+  allowRemote: false
+  allowVisaSponsorship: false
 ```
 
 ### `config/config.yaml`
 
-Configuración de scheduler, filtros y storage:
+Configuración de scheduler, notificaciones y storage:
 
 ```yaml
 schedule:
@@ -183,13 +190,6 @@ storage:
 experience:
   enabled: true
   maxYears: 3
-
-# Filtro de ubicación: solo jobs en tu país (sin remotos globales ni visa)
-location:
-  enabled: true
-  userCountry: "MX"
-  allowRemote: false
-  allowVisaSponsorship: false
 ```
 
 ## Scripts

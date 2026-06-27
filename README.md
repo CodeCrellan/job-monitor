@@ -131,7 +131,7 @@ ashby:
 
 ### `config/keywords.yaml`
 
-Palabras clave + filtro de ubicación — todo en un solo archivo:
+Palabras clave + filtros de experiencia y ubicación — todo en un solo archivo:
 
 ```yaml
 # Al menos una de estas debe matchear (OR)
@@ -161,6 +161,11 @@ excluded:
   - manager
   - intern
 
+# Filtro de experiencia: excluye senior roles y posiciones con muchos años
+experience:
+  enabled: true
+  maxYears: 3
+
 # Filtro de ubicación: solo jobs en tu país, remotos, o con visa sponsorship
 location:
   enabled: true
@@ -185,11 +190,6 @@ notifications:
 
 storage:
   retention_days: 90
-
-# Filtro de experiencia: excluye senior roles y posiciones con muchos años
-experience:
-  enabled: true
-  maxYears: 3
 ```
 
 ## Scripts

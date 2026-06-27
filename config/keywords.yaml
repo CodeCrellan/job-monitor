@@ -44,6 +44,11 @@ excluded:
   - devops
   - react
 
+# Experience filter: exclude senior roles and jobs requiring too many years
+experience:
+  enabled: true
+  maxYears: 3
+
 # Location filter: only jobs in your country, remote, or with visa sponsorship
 location:
   enabled: true

@@ -94,6 +94,8 @@ export interface KeywordConfig {
   bonus: string[];
   /** Excluded keywords (must not match) */
   excluded: string[];
+  /** Experience filter configuration */
+  experience?: ExperienceConfig;
   /** Location filter configuration */
   location?: LocationConfig;
 }

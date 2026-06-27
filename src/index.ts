@@ -41,14 +41,14 @@ async function main(): Promise<void> {
     console.log('Creating pipeline...');
     const pipeline = new Pipeline(repository, {
       keywordConfig: keywords,
-      experienceConfig: appConfig.experience,
+      experienceConfig: keywords.experience,
       locationConfig: keywords.location,
     });
     console.log('  Pipeline ready');
 
     // Log filters status
-    if (appConfig.experience?.enabled) {
-      console.log(`  Experience filter: max ${appConfig.experience.maxYears} years`);
+    if (keywords.experience?.enabled) {
+      console.log(`  Experience filter: max ${keywords.experience.maxYears} years`);
     }
     if (keywords.location?.enabled) {
       console.log(`  Location filter: ${keywords.location.userCountry}, remote=${keywords.location.allowRemote}, visa=${keywords.location.allowVisaSponsorship}`);

@@ -16,9 +16,4 @@ storage:
   dbPath: "./data/jobs.db"
   retentionDays: 90
 
-# Experience filter: exclude senior roles and jobs requiring too many years
-experience:
-  enabled: true
-  maxYears: 3
-
-# Location filter is now in config/keywords.yaml (location section)
+# Filters de búsqueda (keywords, experiencia, ubicación) en config/keywords.yaml

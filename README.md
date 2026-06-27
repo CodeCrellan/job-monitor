@@ -196,13 +196,15 @@ location:
 
 | Comando           | Descripción                              |
 | ----------------- | ---------------------------------------- |
-| `npm run dev`     | Desarrollo con hot-reload (tsx watch)    |
-| `npm start`       | Producción (desde dist/)                 |
-| `npm run build`   | Compilar TypeScript                      |
-| `npm test`        | Correr tests en watch mode               |
-| `npm run test:run`| Correr tests una sola vez                |
-| `npm run lint`    | ESLint                                   |
-| `npm run clean`   | Limpiar dist/                            |
+| `npm run dev`     | Desarrollo con hot-reload (tsx watch) — reinicia solo al cambiar código |
+| `npm start`       | Producción desde `dist/` (correr `npm run build` primero)              |
+| `npm run build`   | Compilar TypeScript a `dist/`                                           |
+| `npm test`        | Tests en watch mode (para desarrollo)     |
+| `npm run test:run`| Tests una sola vez (para CI / verificar)  |
+| `npm run lint`    | ESLint — revisa código                    |
+| `npm run clean`   | Borra `dist/`                             |
+
+> 💡 **Flujo típico**: `npm run dev` para probar cambios, `npm run build && npm start` para producción. Si lo dejás corriendo con `./start.sh`, primero hacé `npm run build`.
 
 ## Tests
 

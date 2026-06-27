@@ -246,6 +246,24 @@ Opciones gratuitas recomendadas:
 | Fly.io     | 3 VMs compartidas                |
 | Local      | `npm start` (requiere siempre-on)|
 
+### Local: mantenerlo corriendo con tmux (recomendado)
+
+En Linux/WSL, el monitor sigue vivo aunque cerrés la terminal si lo corrés dentro de **tmux**:
+
+```bash
+# Una sola vez: arrancar en sesión tmux desacoplada
+./start.sh
+
+# Revisar que está corriendo
+tmux has-session -t job-monitor && echo "Running" || echo "Stopped"
+
+# Para ver logs en vivo
+tmux attach -t job-monitor
+# (Ctrl+B, d para desacoplarte sin matar el proceso)
+```
+
+> 💡 **Auto-start al abrir terminal**: agregá `~/job-monitor/start.sh` al final de tu `.bashrc` y el monitor arranca solo cada vez que abrís una terminal. Si ya está corriendo, no hace nada.
+
 ## Licencia
 
 MIT

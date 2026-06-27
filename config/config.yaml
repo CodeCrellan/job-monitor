@@ -25,5 +25,5 @@ experience:
 location:
   enabled: true
   userCountry: "MX"
-  allowRemote: true
-  allowVisaSponsorship: true
+  allowRemote: false
+  allowVisaSponsorship: false

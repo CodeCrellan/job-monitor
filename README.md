@@ -175,12 +175,12 @@ experience:
   enabled: true
   maxYears: 3
 
-# Filtro de ubicación: solo jobs en tu país, remotos, o con visa
+# Filtro de ubicación: solo jobs en tu país (sin remotos globales ni visa)
 location:
   enabled: true
   userCountry: "MX"
-  allowRemote: true
-  allowVisaSponsorship: true
+  allowRemote: false
+  allowVisaSponsorship: false
 ```
 
 ## Scripts

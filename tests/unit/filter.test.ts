@@ -47,8 +47,8 @@ describe('matchesKeywords', () => {
 
   it('should return false when an excluded keyword matches', () => {
     const job = makeJob({
-      title: 'Engineering Manager',
-      description: 'Managing firmware engineering team',
+      title: 'Firmware Engineering Manager',
+      description: 'Managing RTOS firmware engineering team',
     });
     expect(matchesKeywords(job, defaultConfig)).toBe(false);
   });
@@ -63,7 +63,7 @@ describe('matchesKeywords', () => {
 
   it('should match keywords in title', () => {
     const job = makeJob({
-      title: 'Embedded Linux Engineer',
+      title: 'Embedded Firmware Engineer',
       description: 'General linux development',
     });
     expect(matchesKeywords(job, defaultConfig)).toBe(true);
@@ -80,7 +80,7 @@ describe('matchesKeywords', () => {
   it('should be case insensitive', () => {
     const job = makeJob({
       title: 'Software Engineer',
-      description: 'FIRMWARE development',
+      description: 'FIRMWARE and RTOS development',
     });
     expect(matchesKeywords(job, defaultConfig)).toBe(true);
   });
